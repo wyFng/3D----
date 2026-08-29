@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
+  <meta name="theme-color" content="#0a0e2a" />
+  <meta http-equiv="Content-Security-Policy"
+        content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; connect-src 'self' ws: blob:; font-src 'self'" />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🏃</text></svg>" />
+  <title>极速跑酷 3D</title>
+</head>
+<body>
+  <div id="app"></div>
+  <div id="vignette"></div>
+  <div id="ui">
+    <!-- 主菜单（实时游戏场景做背景） -->
+    <div class="screen" id="scr-menu">
+      <div class="menu-scrim"></div>
+      <div class="menu-inner">
+        <div class="menu-brand">
+          <span class="menu-kicker">SPRINT · PARKOUR · 3D</span>
+          <h1 class="game-title">极速跑酷</h1>
+          <p class="tagline">四大世界 · 2000 米极限挑战</p>
+        </div>
+        <div class="menu-btns">
+          <button class="btn btn-primary" id="btn-start">开始游戏</button>
+          <button class="btn" id="btn-chars">选择角色</button>
+          <button class="btn" id="btn-help">操作说明</button>
+        </div>
+        <div class="help-panel hidden" id="help-panel">
+          <h3>操作方式</h3>
+          <ul>
+            <li><b>电脑：</b>← → / A D 换道　↑ / W / 空格 跳跃　↓ / S 下滑　Esc 暂停　R 重开</li>
+            <li><b>手机：</b>左右滑动换道　上滑或点击跳跃　下滑滑行</li>
+          </ul>
+          <p>撞上障碍或掉落即失败。金币收集率与通关时间决定星级评价。</p>
+        </div>
+        <div class="menu-foot">v1.0 · 纯本地运行 · 无网络请求</div>
+      </div>
+    </div>
+
+    <!-- 角色选择 -->
+    <div class="screen hidden" id="scr-chars">
+      <div class="levels-inner">
+        <h2>选择角色</h2>
+        <div class="level-grid char-grid" id="char-grid"></div>
+        <p class="char-hint">角色切换在下一局生效</p>
+        <button class="btn" id="btn-chars-back">返回主菜单</button>
+      </div>
+    </div>
+
+    <!-- 关卡选择 -->
+    <div class="screen hidden" id="scr-levels">
+      <div class="levels-inner">
+        <h2>选择关卡</h2>
+        <div class="level-grid" id="level-grid"></div>
+        <button class="btn" id="btn-back-menu">返回主菜单</button>
+      </div>
+    </div>
+
+    <!-- 就绪 -->
+    <div class="screen hidden" id="scr-ready">
+      <div class="ready-inner">
+        <div class="level-chip" id="ready-chip">第 1 关</div>
+        <h2 id="ready-name">霓虹都市 · 启程</h2>
+        <p class="ready-hint">点击屏幕或按任意键开始</p>
+      </div>
+    </div>
+
+    <!-- HUD -->
+    <div class="screen transparent hidden" id="scr-hud">
+      <div class="hud-top">
+        <div class="hud-progress"><div id="hud-progress-fill"></div></div>
+        <div class="hud-stats">
+          <span id="hud-coins" class="hud-coin">🪙 0/0</span>
+          <span id="hud-speed" class="hud-speed">🏃 0 km/h</span>
+          <button class="btn-icon" id="btn-mute" title="静音">🔊</button>
+          <button class="btn-icon" id="btn-pause" title="暂停">⏸</button>
+        </div>
+      </div>
+      <div class="hud-powerups" id="hud-powerups"></div>
+      <div class="hud-msg" id="hud-msg"></div>
+    </div>
+
+    <!-- 失败 -->
+    <div class="screen hidden" id="scr-dead">
+      <div class="panel">
+        <h2 class="fail-title">本关失败</h2>
+        <p id="dead-reason">撞上了障碍</p>
+        <div class="btns-row">
+          <button class="btn btn-primary" id="btn-retry">再试一次 (R)</button>
+          <button class="btn" id="btn-dead-back">选择关卡</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- 通关 -->
+    <div class="screen hidden" id="scr-win">
+      <div class="panel">
+        <h2 class="win-title">关卡完成！</h2>
+        <div class="stars" id="win-stars">★★★</div>
+        <div class="win-stats" id="win-stats"></div>
+        <div class="btns-row">
+          <button class="btn btn-primary" id="btn-next">下一关</button>
+          <button class="btn" id="btn-win-retry">重玩本关</button>
+          <button class="btn" id="btn-win-back">选择关卡</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- 暂停 -->
+    <div class="screen hidden" id="scr-pause">
+      <div class="panel">
+        <h2>已暂停</h2>
+        <div class="btns-row">
+          <button class="btn btn-primary" id="btn-resume">继续</button>
+          <button class="btn" id="btn-pause-retry">重新开始</button>
+          <button class="btn" id="btn-pause-back">选择关卡</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script type="module" src="/src/main.js"></script>
+</body>
+</html>
